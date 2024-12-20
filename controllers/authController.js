@@ -86,12 +86,18 @@ class AuthController {
                     data: req.body,
                 });
             }
-
+            
             const token = generateAccessToken(user.id, user.role);
 
             res.cookie('token', token, { httpOnly: true });
-            res.redirect(`/user?name=${encodeURIComponent(user.name)}`);
+
+            if (user.role === "admin") {
+                return res.redirect(`/admin-panel?name=${encodeURIComponent(user.name, user.role)}`);
+            } else {
+                return res.redirect(`/user-panel?name=${encodeURIComponent(user.name, user.role)}`);
+            }
         } catch (error) {
+            console.log(error)
             res.status(500).render('login', {
                 errors: { general: { msg: 'Ошибка сервера, попробуйте позже' } },
                 data: req.body,

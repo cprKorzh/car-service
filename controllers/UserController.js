@@ -1,25 +1,32 @@
 class UserController {
 
-    getUserPage = async (req, res) => {
+    getUserPanel = async (req, res) => {
         try {
-            const { name } = req.query;
-
-            if (!name) {
-                return res.status(400).render('error', {
-                    message: 'Пользователь не указан',
-                    error: { status: 400, stack: '' },
-                });
-            }
-
-            res.render('user', { name });
+            res.render('user-panel', {
+                title: 'Панель пользователя',
+                user: req.user,
+            });
         } catch (e) {
-            res.status(500).render('login', {
-                errors: { general: { msg: 'Ошибка сервера, попробуйте позже' } },
-                data: req.body,
+            res.status(500).render('error', {
+                message: 'Ошибка сервера',
+                error: { status: 500, stack: e.stack },
             });
         }
     };
 
+    getAdminPanel = async (req, res) => {
+        try {
+            res.render('admin-panel', {
+                title: 'Панель администратора',
+                user: req.user,
+            });
+        } catch (e) {
+            res.status(500).render('error', {
+                message: 'Ошибка сервера',
+                error: { status: 500, stack: e.stack },
+            });
+        }
+    };
 }
 
 module.exports = new UserController();

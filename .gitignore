@@ -136,3 +136,5 @@ dist
 *.sw?
 *.sublime-project
 *.sublime-workspace
+
+database_production.sql

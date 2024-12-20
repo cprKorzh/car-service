@@ -3,6 +3,7 @@ const router = express.Router();
 const {body} = require("express-validator");
 const authController = require("../controllers/authController");
 const userController = require("../controllers/UserController");
+const checkRole = require('../middlewares/roleMiddleware');
 const res = require("express/lib/response");
 
 router.get('/', function(req, res, next) {
@@ -21,6 +22,7 @@ router.get('/logout', authController.logout);
 router.get('/registration', authController.getRegistrationPage);
 router.get('/login', authController.getLoginPage);
 
-router.get('/user', userController.getUserPage);
+router.get('/admin-panel', checkRole, userController.getAdminPanel);
+router.get('/user-panel', checkRole, userController.getUserPanel);
 
 module.exports = router;
