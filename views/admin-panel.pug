@@ -7,5 +7,17 @@ block content
     p Ваш ID: #{user.id}
     p Ваша роль: #{user.role}
 
+    h2 Заявки на ремонт
+    if requests && requests.length > 0
+        ul
+            each request in requests
+                li
+                    p Проблема: #{request.problem}
+                    p Дата ремонта: #{request.repair_date}
+                    p Авто: #{request.car.make} #{request.car.model} (#{request.car.number})
+                    p Пользователь: #{request.user.name} (#{request.user.email})
+    else
+        p Заявок на ремонт пока нет.
+
     form(method="GET" action="/logout")
         button(type="submit") Выйти

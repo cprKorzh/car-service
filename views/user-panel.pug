@@ -9,9 +9,21 @@ block content
     form(method="GET" action="/logout")
         button(type="submit") Выйти
 
-block content
-    h1 Создание авто
+    h2 Создание авто
     form(method="POST" action="/create-car")
+        div
+            label(for="name") Название авто:
+            input(type="text" name="name" id="name" required)
+        div
+            label(for="make") Марка:
+            input(type="text" name="make" id="make" required)
+        div
+            label(for="model") Модель:
+            input(type="text" name="model" id="model" required)
+        button(type="submit") Создать авто
+    
+    h2 Создание заявки на ремонт
+    form(method="POST" action="/create-repair")
         div
             label(for="number") Номер авто:
             input(type="text" name="number" id="number" required)

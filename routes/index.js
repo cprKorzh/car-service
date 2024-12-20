@@ -3,8 +3,10 @@ const router = express.Router();
 const {body} = require("express-validator");
 const authController = require("../controllers/authController");
 const userController = require("../controllers/UserController");
+const carController = require("../controllers/CarController");
+const adminController = require("../controllers/AdminController");
+
 const checkRole = require('../middlewares/roleMiddleware');
-const res = require("express/lib/response");
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Главная страница' });
@@ -24,5 +26,9 @@ router.get('/login', authController.getLoginPage);
 
 router.get('/admin-panel', checkRole, userController.getAdminPanel);
 router.get('/user-panel', checkRole, userController.getUserPanel);
+
+router.post('/create-car', checkRole, carController.createCar);
+
+router.get('/admin-requests', checkRole, adminController.getAdminRequests);
 
 module.exports = router;
