@@ -1,0 +1,60 @@
+extends layout
+
+block content
+    h1 Регистрация
+
+    if errors.general
+        p.error #{errors.general.msg}
+
+    form(method="POST" action="/registration")
+        div
+            input(type="text" name="surname" id="surname" placeholder="Фамилия" value=(data.surname || ''))
+            if errors.surname
+                span.error #{errors.surname.msg}
+        div
+            input(type="text" name="name" id="name" placeholder="Имя" value=(data.name || ''))
+            if errors.name
+                span.error #{errors.name.msg}
+        div
+            input(type="text" name="middlename" id="middlename" placeholder="Отчество" value=(data.middlename || ''))
+            if errors.middlename
+                span.error #{errors.middlename.msg}
+        div
+            input(type="tel" name="tel" id="tel" placeholder="+7 (        )       -      -" value=(data.tel || ''))
+            script.
+                document.addEventListener('DOMContentLoaded', function () {
+                    const telInput = document.getElementById('tel');
+                    telInput.addEventListener('input', function (e) {
+                        let value = telInput.value.replace(/\D/g, '');
+
+                        if (!value.startsWith('7')) {
+                            value = '7' + value;
+                        }
+
+                        value = value.substring(0, 11);
+
+                        value = value
+                            .replace(/(\d{1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/, function (_, g1, g2, g3, g4, g5) {
+                                let formatted = `+${g1}`;
+                                if (g2) formatted += ` (${g2}`;
+                                if (g3) formatted += `) ${g3}`;
+                                if (g4) formatted += `-${g4}`;
+                                if (g5) formatted += `-${g5}`;
+                                return formatted;
+                            });
+
+                        telInput.value = value;
+                    });
+                });
+            if errors.tel
+                span.error #{errors.tel.msg}
+
+        div
+            input(type="email" name="email" id="email" placeholder="example@mail.ru" value=(data.email || ''))
+            if errors.email
+                span.error #{errors.email.msg}
+        div
+            input(type="password" name="password" id="password" placeholder="Пароль")
+            if errors.password
+                span.error #{errors.password.msg}
+        button(type="submit") Зарегистрироваться
